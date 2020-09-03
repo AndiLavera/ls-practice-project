@@ -4,14 +4,14 @@
     "full_name": "Naveed Fida",
     "email": "nf@example.com",
     "phone_number": "12345678901",
-    "tags": "work, business"
+    "tags": "work, businesss"
   },
   {
     "id": 2,
     "full_name": "Victor Reyes",
     "email": "vpr@example.com",
     "phone_number": "09876543210",
-    "tags": "work,friend"
+    "tags": "work,friends"
   },
   {
     "id": 3,

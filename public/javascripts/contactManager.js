@@ -14,19 +14,18 @@ export default class ContactManager {
   addContact(e) {
     e.preventDefault();
     if (this.form.validateInputs()) {
-      this.form.hide();
       const data = this.form.jsonifyInputs();
+      this.form.hide();
 
       this.openRequest("POST", "/api/contacts/");
 
       this.request.addEventListener("load", () => {
-        const { response } = this.request;
-        const contact = this.generateNewContact(response);
+        const contact = this.generateContacts(this.request);
         this.addToScreen(contact);
       });
 
       this.request.send(data);
-      this.form.reset();
+      this.form.resetInputs();
     }
   }
 
@@ -34,17 +33,17 @@ export default class ContactManager {
     e.preventDefault();
     if (this.form.validateInputs()) {
       const { contact } = this.form;
-      this.form.hide();
       const data = this.form.jsonifyInputs();
+      this.form.hide();
+
       this.openRequest("PUT", `/api/contacts/${contact.id}`);
 
       this.request.addEventListener("load", () => {
-        const { response } = this.request;
-        contact.update(response);
+        contact.update(this.request.response);
       });
 
       this.request.send(data);
-      this.form.reset();
+      this.form.resetInputs();
     }
   }
 

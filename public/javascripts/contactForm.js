@@ -81,10 +81,10 @@ export default class ContactForm {
     });
   }
 
-  // Binds an event listener on each 'show'
+  // Binds an event listener on each 'show' invocation
   // Due to the fact we only have 1 form, we need to
-  // rebind a callback depending on if we are creating
-  // a new contact or updating an existing contact
+  // rebind the submit callback depending on if we are
+  // creating a new contact or updating an existing contact
   show(callback) {
     $(this.modal).modal("show");
     this.addSubmitListener(callback);

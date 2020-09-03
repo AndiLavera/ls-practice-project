@@ -6,7 +6,7 @@ export default class Contact {
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
     this.email = email;
-    this.tags = tags ? tags.split(',') : [];
+    this.tags = tags ? tags.split(",") : [];
     this.id = id;
     this.createNode(node);
     this.rendered = false;
@@ -15,8 +15,8 @@ export default class Contact {
   createNode(node) {
     this.node = node.cloneNode(true);
     this.node.id = `contact-${this.id}`;
-    this.setNodeText();
-    this.setNodeTags();
+    this.setText();
+    this.setTags();
     this.show();
   }
 
@@ -26,46 +26,72 @@ export default class Contact {
   }
 
   bindListeners(form, submitCallback, deleteCallback, tagCallback) {
-    this.node.querySelector('a[name=edit]').addEventListener('click', (e) => {
+    this.bindEditButton(form, submitCallback);
+    this.bindDeleteButton(deleteCallback);
+    this.bindTags(tagCallback);
+  }
+
+  bindEditButton(form, submitCallback) {
+    this.node.querySelector("a[name=edit]").addEventListener("click", (e) => {
       e.preventDefault();
       form.setContactInfo(this);
       form.show(submitCallback);
     });
+  }
 
-    this.node.querySelector('a[name=delete]').addEventListener('click', (e) => {
+  bindDeleteButton(deleteCallback) {
+    this.node.querySelector("a[name=delete]").addEventListener("click", (e) => {
       deleteCallback(e, this);
     });
+  }
 
+  bindTags(tagCallback) {
     this.node
-      .querySelector('dd[data-contact=tags]')
-      .addEventListener('click', (e) => {
+      .querySelector("dd[data-contact=tags]")
+      .addEventListener("click", (e) => {
         tagCallback(e, this);
       });
-  }
-
-  setNodeText() {
-    this.node.querySelector('[data-contact=name]').textContent = this.fullName;
-    this.node.querySelector('[data-contact=email]').textContent = this.email;
-    this.node.querySelector(
-      '[data-contact=phone]'
-    ).textContent = this.phoneNumber;
-  }
-
-  setNodeTags() {
-    this.tags.forEach((tag) => {
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-outline-primary btn-tag mr-2';
-      btn.textContent = tag;
-      this.node.querySelector('dd[data-contact=tags]').append(btn);
-    });
   }
 
   update({ full_name: fullName, phone_number: phoneNumber, email, tags }) {
     this.fullName = fullName;
     this.phoneNumber = phoneNumber;
     this.email = email;
-    this.tags = tags ? tags.split(',') : [];
-    this.setNodeText();
+    this.tags = tags ? tags.split(",") : [];
+    this.setText();
+    this.removeTags(this.node.querySelector("dd[data-contact=tags]"));
+    this.setTags();
+  }
+
+  setText() {
+    Object.keys(this.textNodes()).forEach((key) => {
+      this.node.querySelector(
+        `[data-contact=${key}]`
+      ).textContent = this.textNodes()[key];
+    });
+  }
+
+  textNodes() {
+    return {
+      fullName: this.fullName,
+      email: this.email,
+      phoneNumber: this.phoneNumber,
+    };
+  }
+
+  setTags() {
+    const tagLocation = this.node.querySelector("dd[data-contact=tags]");
+
+    this.tags.forEach((tag) => {
+      const btn = document.createElement("button");
+      btn.className = "btn btn-outline-primary btn-tag mr-2";
+      btn.textContent = tag;
+      tagLocation.append(btn);
+    });
+  }
+
+  removeTags(location) {
+    Array.from(location.children).forEach((node) => node.remove());
   }
 
   removeNode() {
