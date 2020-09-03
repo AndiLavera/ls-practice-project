@@ -1,8 +1,14 @@
+import camelCase from "./camelCase.js";
+
 export default class ContactForm {
   constructor(modal) {
     this.modal = modal;
     this.form = modal.querySelector("form");
     this.inputs = [];
+    this.fetchInputs();
+  }
+
+  fetchInputs() {
     Array.from(this.form.querySelectorAll("input")).forEach((elm) => {
       if (elm.type !== "submit") {
         this.inputs.push(elm);
@@ -14,33 +20,34 @@ export default class ContactForm {
     return input.value !== "";
   }
 
-  addClass(input, klass) {
-    input.classList.add(klass);
+  addIsValidClass(input) {
+    input.classList.remove("is-invalid");
+    input.classList.add("is-valid");
   }
 
-  removeClass(input, klass) {
-    input.classList.remove(klass);
+  addIsInValidClass(input) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
   }
 
   validateInputs() {
     let valid = true;
     this.inputs.forEach((input) => {
       if (this.isValid(input)) {
-        this.removeClass(input, "is-invalid");
-        this.addClass(input, "is-valid");
+        this.addIsValidClass(input);
       } else {
         valid = false;
-        this.removeClass(input, "is-valid");
-        this.addClass(input, "is-invalid");
+        this.addIsInValidClass(input);
       }
     });
+
     return valid;
   }
 
   resetInputs() {
     this.inputs.forEach((elm) => {
-      this.removeClass(elm, "is-invalid");
-      this.removeClass(elm, "is-valid");
+      elm.classList.remove("is-valid");
+      elm.classList.remove("is-invalid");
     });
     this.form.reset();
   }
@@ -69,14 +76,15 @@ export default class ContactForm {
     return JSON.stringify(data);
   }
 
-  // Puts the contact values into the inputs for easy editing
-  setContactInfo(contact) {
+  setContact(contact) {
     this.contact = contact;
+    this.setContactInputs(contact);
+  }
+
+  setContactInputs(contact) {
     this.inputs.forEach((elm) => {
       let { name } = elm;
-      if (name.includes("_")) {
-        name = this.camelCase(name);
-      }
+      name = name.includes("_") ? camelCase(name) : name;
       elm.value = contact[name];
     });
   }
@@ -94,12 +102,5 @@ export default class ContactForm {
     $(this.modal).modal("hide");
     this.removeSubmitListener();
     this.contact = undefined;
-  }
-
-  camelCase(name) {
-    const names = name.split("_");
-    const letter = names[1].charAt(0).toUpperCase();
-    names[1] = letter + names[1].slice(1);
-    return names.join("");
   }
 }

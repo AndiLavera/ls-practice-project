@@ -34,7 +34,7 @@ export default class Contact {
   bindEditButton(form, submitCallback) {
     this.node.querySelector("a[name=edit]").addEventListener("click", (e) => {
       e.preventDefault();
-      form.setContactInfo(this);
+      form.setContact(this);
       form.show(submitCallback);
     });
   }
