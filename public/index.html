@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Contact Manager</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="/javascripts/app.js" defer></script>
+
+    <style>
+      .bg-color-dark {
+        background-color: #24292e;
+      }
+
+      .bg-color-light {
+        background-color: #31363f;
+      }
+
+      .text-color-light {
+        color: #d6d8da !important;
+      }
+
+      .form-control {
+        border: 1px solid #000;
+      }
+      .form-control:focus {
+        background-color: #31363f;
+        color: #d6d8da !important;
+      }
+      .modal-backdrop.show {
+        opacity: 0.2;
+        background-color: #fff;
+      }
+      .btn-tag {
+        padding: 0 5px;
+        font-size: 0.7rem;
+      }
+    </style>
+  </head>
+
+  <body class="bg-color-dark text-color-light">
+    <header>
+      <div class="container">
+        <div class="row">
+          <h1 class="mx-auto">Contact Manager</h1>
+        </div>
+        <div class="row">
+          <p class="mx-auto">Using Handlebars, and Bootstrap</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="row mx-auto mb-5">
+            <div class="text-center col-sm-6">
+              <button
+                id="addContactButton"
+                class="btn btn-lg btn-primary text-color-light"
+              >
+                Add Contact
+              </button>
+            </div>
+
+            <div class="text-center col-sm-6">
+              <input
+                id="search-bar"
+                type="text"
+                class="form-control bg-color-light text-color-light"
+                placeholder="Search"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="contacts" class="row"></div>
+
+      <!-- Footer -->
+      <div class="footer text-center">
+        <p>Developed by Andrew Crotwell</p>
+      </div>
+      <!-- /Footer -->
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="contactModal"
+        data-backdrop="static"
+        data-keyboard="false"
+      >
+        <div class="modal-dialog" role="document">
+          <form id="new-contact-form" class="modal-content bg-color-dark">
+            <div class="modal-header">
+              <h5 class="modal-title" id="contactModalLabel">Add Contact</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span class="text-color-light" aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div id="contact-body" class="modal-body">
+              <label>Full Name</label>
+              <input
+                type="text"
+                name="full_name"
+                class="form-control bg-color-light text-color-light"
+                placeholder="Full Name"
+              />
+
+              <label>Email</label>
+              <input
+                type="text"
+                name="email"
+                class="form-control bg-color-light text-color-light"
+                placeholder="Email"
+              />
+
+              <label>Phone</label>
+              <input
+                type="text"
+                name="phone_number"
+                class="form-control bg-color-light text-color-light"
+                placeholder="Phone Number"
+              />
+
+              <label>Tags</label>
+              <input
+                type="text"
+                name="tags"
+                class="form-control bg-color-light text-color-light"
+                placeholder="Comma Separated Tags"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                name="close"
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <input
+                id="add-contact"
+                type="submit"
+                class="btn btn-primary"
+                value="Submit"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /Modal -->
+
+      <!-- Contact Card -->
+      <div
+        data-name="contact-card"
+        class="col-12 col-sm-6 col-md-4 mb-1"
+        hidden
+      >
+        <div class="card bg-color-light">
+          <div class="card-body">
+            <h5 data-contact="name" class="card-title"></h5>
+            <h6 data-contact="email" class="card-subtitle mb-2 text-muted"></h6>
+            <dl>
+              <dt>Phone Number:</dt>
+              <dd data-contact="phone"></dd>
+              <dt>Tags</dt>
+              <dd data-contact="tags"></dd>
+            </dl>
+            <a
+              data-link="/api/contacts/"
+              name="edit"
+              href="/"
+              class="card-link"
+            >
+              Edit
+            </a>
+            <a
+              data-link="/api/contacts/"
+              name="delete"
+              href="/"
+              class="card-link"
+            >
+              Delete
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- /Contact Card -->
+    </div>
+    <!-- /container -->
+  </body>
+</html>

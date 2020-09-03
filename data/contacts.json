@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "full_name": "Naveed Fida",
+    "email": "nf@example.com",
+    "phone_number": "12345678901",
+    "tags": "work, business"
+  },
+  {
+    "id": 2,
+    "full_name": "Victor Reyes",
+    "email": "vpr@example.com",
+    "phone_number": "09876543210",
+    "tags": "work,friend"
+  },
+  {
+    "id": 3,
+    "full_name": "Pete Hanson",
+    "email": "ph@example.com",
+    "phone_number": "54321098761",
+    "tags": null
+  },
+  {
+    "full_name": "Andrew",
+    "phone_number": "7143369741",
+    "email": "andrew@gmail.com",
+    "tags": "work,business",
+    "id": 8
+  },
+  {
+    "full_name": "Melinda Lim",
+    "phone_number": "9095417221",
+    "email": "melinda@gmail.com",
+    "tags": "work,business",
+    "id": 9
+  },
+  {
+    "full_name": "Melinda Lim",
+    "phone_number": "9095417221",
+    "email": "melinda@gmail.com",
+    "tags": "cute, awesome",
+    "id": 10
+  }
+]
